@@ -1,16 +1,31 @@
 import { Categories } from '@/components/categories'
 import { Link } from '@/components/link'
 import { Option } from '@/components/option'
+import { LinkStorage, linkStorage } from '@/storage/link-storage'
 import { colors } from '@/styles/colors'
 import { categories } from '@/utils/categories'
 import { MaterialIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
-import { useState } from 'react'
-import { FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native'
+import { useEffect, useState } from 'react'
+import { Alert, FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 
 export default function Index() {
   const [category, setCategory] = useState<string>(categories[0].name)
+  const [links, setLinks] = useState<LinkStorage[]>([])
+  async function getLinks() {
+    try {
+      const response = await linkStorage.get()
+      setLinks(response)
+    } catch (error) {
+      Alert.alert('Erro', 'Nao foi possivel carregar os links.')
+    }
+  }
+
+  useEffect(() => {
+    getLinks()
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -23,9 +38,15 @@ export default function Index() {
 
 
       <FlatList 
-        data={['1', '2', '3', '4', '5']}
-        keyExtractor={item => item}
-        renderItem={({ item }) => <Link name='Diego dev' url='https://diegodev.com.br' onDetails={() => console.log('clicou')} />}
+        data={links}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <Link 
+            name={item.name} 
+            url={item.url}
+            onDetails={() => console.log('clicou')} 
+          />
+        )}
         style={styles.links}
         contentContainerStyle={styles.linksContent}
         showsVerticalScrollIndicator={false}
