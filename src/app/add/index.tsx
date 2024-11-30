@@ -11,6 +11,7 @@ import { styles } from "./styles";
 export default function Add() {
   const [ name, setName ] = useState<string>("")
   const [url, setUrl] = useState<string>("")
+  const [category, setCategory] = useState<string>("")
 
   function handleAdd() {
 
@@ -30,7 +31,7 @@ export default function Add() {
         Selecione uma categoria
       </Text>
 
-      <Categories />
+      <Categories onChange={setCategory} selected={category}/>
 
       <View style={styles.form}>
         <Input placeholder="Nome" onChangeText={setName} autoCorrect={false}/>
