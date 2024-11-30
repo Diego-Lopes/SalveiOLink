@@ -1,4 +1,5 @@
 import { Categories } from "@/components/categories";
+import { Input } from "@/components/input";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -21,6 +22,11 @@ export default function Add() {
       </Text>
 
       <Categories />
+
+      <View style={styles.form}>
+        <Input placeholder="Nome" />
+        <Input placeholder="Url" />
+      </View>
     </View>
   )
 }
