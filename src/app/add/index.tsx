@@ -33,7 +33,11 @@ export default function Add() {
         category,
       })
 
-      //const data = await linkStorage.get()
+      Alert.alert('Sucesso', 'Link adicionado com sucesso.', [
+        {
+          text: 'Ok', onPress: () => router.back() // ao clicar no ok ele volta para a tela anterior
+        }
+      ])
 
     } catch (error) {
       Alert.alert('Erro', 'Nao foi possivel adicionar o link.')
