@@ -5,8 +5,8 @@ import { LinkStorage, linkStorage } from '@/storage/link-storage'
 import { colors } from '@/styles/colors'
 import { categories } from '@/utils/categories'
 import { MaterialIcons } from '@expo/vector-icons'
-import { router } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { router, useFocusEffect } from 'expo-router'
+import { useCallback, useState } from 'react'
 import { Alert, FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 
@@ -22,9 +22,10 @@ export default function Index() {
     }
   }
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
+    //useFocusEffect e uma funcao que fica ouvindo o estado da tela
     getLinks()
-  }, [])
+  }, []))
 
   return (
     <View style={styles.container}>
