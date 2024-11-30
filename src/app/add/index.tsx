@@ -25,8 +25,8 @@ export default function Add() {
       <Categories />
 
       <View style={styles.form}>
-        <Input placeholder="Nome" />
-        <Input placeholder="Url" />
+        <Input placeholder="Nome" onChangeText={() => {}}/>
+        <Input placeholder="Url" onChangeText={() => {}}/>
         <Button title="Adicionar" activeOpacity={0.7}/>
       </View>
     </View>
