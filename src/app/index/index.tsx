@@ -32,6 +32,29 @@ export default function Index() {
     setLink(selected)
   }
 
+  async function handleDelete() {
+    try {
+      Alert.alert('Excluir', 'Deseja realmente excluir esse link?', [
+        {
+        style: 'default',
+        text: 'Sim',
+        onPress: async () => {
+          await linkStorage.remove(link.id)
+          getLinks()
+          setShowModal(false)
+        }
+      },
+      {
+        style: 'cancel',
+        text: 'Nao',
+        onPress: () => setShowModal(false)
+      }
+      ])
+    } catch (error) {
+      Alert.alert('Erro', 'Nao foi possivel excluir.')
+    }
+  }
+
   useFocusEffect(useCallback(() => {
     //useFocusEffect e uma funcao que fica ouvindo o estado da tela
     getLinks()
@@ -80,7 +103,7 @@ export default function Index() {
             </Text>
 
             <View style={styles.modalFooter}>
-              <Option name="Excluir" icon="delete" variant='secundary'/>
+              <Option name="Excluir" icon="delete" variant='secundary' onPress={handleDelete} />
               <Option name="Abrir" icon="language" />
             </View>
           </View>

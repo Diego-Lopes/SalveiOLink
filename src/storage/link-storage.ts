@@ -17,7 +17,7 @@ async function get(): Promise<LinkStorage[]> {
   return response
 }
 
-async function set(newLink: LinkStorage) {
+async function save(newLink: LinkStorage) {
   //salva as informações no storage
   try {
     const storage = await get()
@@ -35,4 +35,14 @@ async function set(newLink: LinkStorage) {
   }
 }
 
-export const linkStorage = { get, set }
+async function remove(id: string) {
+  try {
+    const storage = await get()
+    const filtered = storage.filter((link: LinkStorage) => link.id !== id)
+    await AsyncStorage.setItem(LINKS_STORAGE_KEY, JSON.stringify(filtered))
+  } catch (error) {
+    throw error
+  }
+}
+
+export const linkStorage = { get, save, remove }

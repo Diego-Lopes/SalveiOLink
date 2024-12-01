@@ -26,7 +26,7 @@ export default function Add() {
         return Alert.alert('Url', 'Informe a url.')
       }
       
-      await linkStorage.set({
+      await linkStorage.save({
         id: new Date().getTime().toString(),
         name,
         url,
