@@ -7,7 +7,7 @@ import { categories } from '@/utils/categories'
 import { MaterialIcons } from '@expo/vector-icons'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { Alert, FlatList, Image, Modal, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, Linking, Modal, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 
 export default function Index() {
@@ -52,6 +52,15 @@ export default function Index() {
       ])
     } catch (error) {
       Alert.alert('Erro', 'Nao foi possivel excluir.')
+    }
+  }
+
+  async function handleOpenLink() {
+    try {
+      await Linking.openURL(link.url)
+      setShowModal(false)
+    } catch (error) {
+      Alert.alert('Link', 'Nao foi possivel abrir o link.')
     }
   }
 
@@ -104,7 +113,7 @@ export default function Index() {
 
             <View style={styles.modalFooter}>
               <Option name="Excluir" icon="delete" variant='secundary' onPress={handleDelete} />
-              <Option name="Abrir" icon="language" />
+              <Option name="Abrir" icon="language" onPress={handleOpenLink}/>
             </View>
           </View>
         </View>
