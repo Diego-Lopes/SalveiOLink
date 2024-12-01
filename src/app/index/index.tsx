@@ -11,8 +11,10 @@ import { Alert, FlatList, Image, Modal, Text, TouchableOpacity, View } from 'rea
 import { styles } from './styles'
 
 export default function Index() {
+  const [showModal, setShowModal] = useState<boolean>(false)
   const [category, setCategory] = useState<string>(categories[0].name)
   const [links, setLinks] = useState<LinkStorage[]>([])
+  const [link, setLink] = useState<LinkStorage>({} as LinkStorage)
   async function getLinks() {
     try {
       const response = await linkStorage.get()
@@ -23,6 +25,11 @@ export default function Index() {
     } catch (error) {
       Alert.alert('Erro', 'Nao foi possivel carregar os links.')
     }
+  }
+
+  function handleDetails(selected: LinkStorage) {
+    setShowModal(true)
+    setLink(selected)
   }
 
   useFocusEffect(useCallback(() => {
@@ -48,7 +55,7 @@ export default function Index() {
           <Link 
             name={item.name} 
             url={item.url}
-            onDetails={() => console.log('clicou')} 
+            onDetails={() => handleDetails(item)}  
           />
         )}
         style={styles.links}
@@ -56,20 +63,20 @@ export default function Index() {
         showsVerticalScrollIndicator={false}
       />
 
-      <Modal transparent visible={false}>
+      <Modal transparent animationType='slide' visible={showModal}>
         <View style={styles.modal}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalcategory}>Curso</Text>
-              <TouchableOpacity>
+              <Text style={styles.modalcategory}>{link.category}</Text>
+              <TouchableOpacity onPress={() => setShowModal(false)}>
                 <MaterialIcons name="close" size={20} color={colors.gray[400]} />
               </TouchableOpacity>
             </View>
             <Text style={styles.modalLinkName}>
-              Diego dev
+              {link.name}
             </Text>
             <Text style={styles.modalUrl}>
-              https://diegodev.com.br/
+              {link.url}
             </Text>
 
             <View style={styles.modalFooter}>
